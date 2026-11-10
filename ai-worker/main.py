@@ -80,6 +80,9 @@ MOBILENET_RECYCLABLE_WORDS = {
     'bottle', 'pop bottle', 'water bottle', 'beer bottle', 'wine bottle', 'beer glass',
     'goblet', 'glass', 'beaker', 'flask', 'jar', 'water jug', 'cup', 'mug',
 
+    # Piring, Nampan, Mangkuk, Wadah Plastik/Melamin/Keramik
+    'plate', 'dish', 'tray', 'saucer', 'bowl', 'platter', 'bucket', 'tub', 'frisbee',
+
     # Logam & Kaleng
     'can', 'tin', 'tin can', 'metal', 'aluminum', 'pot', 'bottlecap', 'crate', 'barrel'
 }
@@ -94,6 +97,13 @@ OBJECT_TRANSLATIONS_ID = {
     'water_bottle': 'Botol Air Mineral',
     'water bottle': 'Botol Air Mineral',
     'bottle': 'Botol Plastik',
+    'plate': 'Piring Plastik / Makan',
+    'dish': 'Piring / Wadah Makanan',
+    'tray': 'Nampan / Piring Saji',
+    'saucer': 'Piring Kecil / Tatakan',
+    'bowl': 'Mangkuk Plastik / Wadah',
+    'bucket': 'Ember / Wadah Plastik',
+    'frisbee': 'Piringan Plastik / Frisbee',
     'packet': 'Bungkus / Kemasan Sachet',
     'sachet': 'Kemasan Sachet Multilayer',
     'plastic_bag': 'Kantong Plastik / Kresek',
@@ -512,10 +522,23 @@ async def detect_waste(file: UploadFile = File(...)):
             max_green = max(green_ratio, green_roi_ratio)
 
             if max_green > 0.035:
-                category = "organik"
-                confidence = round(0.91 + min(0.07, max_green * 0.25), 2)
-                detection_source = "ai_visual_green_leaf"
-                logger.info(f"[TIER 4] Webcam Daun Hijau Terdeteksi! (Green Ratio: {max_green:.3f}) → ORGANIK")
+                # Periksa variansi tekstur permukaan hijau (membedakan piring plastik halus vs daun alami berserat)
+                gray = cv2.cvtColor(cv_img, cv2.COLOR_BGR2GRAY)
+                lap = cv2.Laplacian(gray, cv2.CV_64F)
+                lap_var = float(lap[green_mask].var()) if np.sum(green_mask) > 100 else 0.0
+
+                if lap_var < 80 and max_green > 0.08:
+                    # Permukaan plastik/melamin hijau yang rata, mulus, dan luas = Piring/Wadah Plastik Hijau
+                    category = "anorganik"
+                    confidence = 0.94
+                    detection_source = "ai_vision_plate"
+                    logger.info(f"[TIER 4] Permukaan Plastik Hijau Mulus (Piring/Wadah Plastik) [LapVar: {lap_var:.1f}] → ANORGANIK")
+                else:
+                    # Permukaan kasar berserat tumbuhan = Daun Alami
+                    category = "organik"
+                    confidence = round(0.91 + min(0.07, max_green * 0.25), 2)
+                    detection_source = "ai_visual_green_leaf"
+                    logger.info(f"[TIER 4] Webcam Daun Hijau Alami Terdeteksi! (Green Ratio: {max_green:.3f}, LapVar: {lap_var:.1f}) → ORGANIK")
 
         # -----------------------------------------------------------------
         # TIER 5: YOLOv8 DEDICATED WASTE MODEL (Cardboard, Metal, Glass, dll)
