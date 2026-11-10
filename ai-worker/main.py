@@ -56,9 +56,8 @@ MOBILENET_ORGANIC_WORDS = {
 
 MOBILENET_RESIDUE_WORDS = {
     # 1. Kemasan Plastik Multilayer, Sachet, Bungkus Snack
-    'packet', 'sachet', 'bag', 'plastic_bag', 'envelope', 'wrapper', 'diaper',
-    'rubber', 'styrofoam', 'pouch', 'hamper', 'toyshop', 'confectionery',
-    'grocery store', 'bubble gum', 'candy', 'matchstick',
+    'packet', 'sachet', 'bag', 'plastic_bag', 'wrapper', 'diaper',
+    'rubber', 'styrofoam', 'pouch', 'bubble gum', 'candy', 'matchstick',
 
     # 2. Sampah Elektronik (E-Waste / Charger / Kabel / Baterai / Gadget)
     'ipod', 'cellular', 'telephone', 'computer', 'keyboard', 'laptop', 'modem',
@@ -73,10 +72,16 @@ MOBILENET_RESIDUE_WORDS = {
 }
 
 MOBILENET_RECYCLABLE_WORDS = {
-    'bottle', 'pop bottle', 'water bottle', 'beer bottle', 'wine bottle', 'can', 'tin',
-    'tin can', 'jar', 'beaker', 'flask', 'box', 'paper', 'cup', 'mug', 'glass', 'metal',
-    'aluminum', 'crate', 'barrel', 'pot', 'bottlecap', 'carton', 'cardboard', 'mailbag',
-    'newspaper', 'comic book', 'binder', 'notebook', 'pencil box', 'shoji', 'water jug'
+    # Kertas, Kardus, Karton, Kotak
+    'carton', 'cardboard', 'box', 'paper', 'envelope', 'newspaper', 'comic book',
+    'binder', 'notebook', 'pencil box', 'shoji',
+
+    # Botol & Gelas Kaca / Plastik
+    'bottle', 'pop bottle', 'water bottle', 'beer bottle', 'wine bottle', 'beer glass',
+    'goblet', 'glass', 'beaker', 'flask', 'jar', 'water jug', 'cup', 'mug',
+
+    # Logam & Kaleng
+    'can', 'tin', 'tin can', 'metal', 'aluminum', 'pot', 'bottlecap', 'crate', 'barrel'
 }
 
 OBJECT_TRANSLATIONS_ID = {
@@ -132,15 +137,30 @@ def classify_with_mobilenet(pil_img: Image.Image) -> dict | None:
         top10_scores = torch.topk(preds, 10).values.tolist()
         top10_labels = [mobilenet_classes[idx] for idx in top10_indices]
 
-        org_score = sum(s for c, s in zip(top10_labels, top10_scores) if any(w in c.lower() for w in MOBILENET_ORGANIC_WORDS))
-        res_score = sum(s for c, s in zip(top10_labels, top10_scores) if any(w in c.lower() for w in MOBILENET_RESIDUE_WORDS))
-        rec_score = sum(s for c, s in zip(top10_labels, top10_scores) if any(w in c.lower() for w in MOBILENET_RECYCLABLE_WORDS))
+        # Prioritaskan Top-1 hasil klasifikasi neural network langsung
+        top1_clean = top10_labels[0].lower()
+        best_cat = None
 
-        scores = {'organik': org_score, 'residu': res_score, 'anorganik': rec_score}
-        best_cat = max(scores, key=scores.get)
-        max_score = scores[best_cat]
+        if any(w in top1_clean for w in MOBILENET_RECYCLABLE_WORDS):
+            best_cat = 'anorganik'
+        elif any(w in top1_clean for w in MOBILENET_ORGANIC_WORDS):
+            best_cat = 'organik'
+        elif any(w in top1_clean for w in MOBILENET_RESIDUE_WORDS):
+            best_cat = 'residu'
 
-        logger.info(f"[MobileNet-v3] Top: {top10_labels[0]} ({top10_scores[0]:.2f}) | Org: {org_score:.2f} | Res: {res_score:.2f} | Rec: {rec_score:.2f}")
+        # Jika Top-1 ambigu, gunakan akumulasi bobot top-5 teratas
+        if not best_cat:
+            org_score = sum(s for c, s in zip(top10_labels[:5], top10_scores[:5]) if any(w in c.lower() for w in MOBILENET_ORGANIC_WORDS))
+            res_score = sum(s for c, s in zip(top10_labels[:5], top10_scores[:5]) if any(w in c.lower() for w in MOBILENET_RESIDUE_WORDS))
+            rec_score = sum(s for c, s in zip(top10_labels[:5], top10_scores[:5]) if any(w in c.lower() for w in MOBILENET_RECYCLABLE_WORDS))
+
+            scores = {'organik': org_score, 'residu': res_score, 'anorganik': rec_score}
+            best_cat = max(scores, key=scores.get)
+            max_score = scores[best_cat]
+        else:
+            max_score = top10_scores[0]
+
+        logger.info(f"[MobileNet-v3] Top-1: {top10_labels[0]} ({top10_scores[0]:.2f}) → Kategori: {best_cat}")
 
         # Ambang keyakinan: jika ada skor dominan
         if max_score > 0.05:

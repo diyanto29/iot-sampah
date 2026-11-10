@@ -109,7 +109,7 @@ class WasteController extends Controller
         // A. Semantic Filename Hints
         $organicWords = ['daun', 'leaf', 'buah', 'sayur', 'kulit', 'pisang', 'apel', 'jeruk', 'organik', 'makanan', 'bunga', 'ranting', 'centipede', 'xivfn5rttihgzso'];
         $residuWords = ['rinso', 'sachet', 'refill', 'baterai', 'battery', 'styrofoam', 'kabel', 'charger', 'macbook', 'laptop', 'mouse', 'modem', 'b3', 'residu', 'lampu', 'images.jpeg'];
-        $anorganikWords = ['botol', 'bottle', 'sprite', 'aqua', 'le_minerale', 'plastik', 'plastic', 'gelas', 'kaleng', 'can', 'kardus', 'cardboard', 'kertas', 'paper', 'daur_ulang', 'images-2.jpeg'];
+        $anorganikWords = ['botol', 'bottle', 'sprite', 'aqua', 'le_minerale', 'plastik', 'plastic', 'gelas', 'kaleng', 'can', 'kardus', 'cardboard', 'carton', 'dus', 'box', 'kertas', 'paper', 'daur_ulang', 'images-2.jpeg'];
 
         foreach ($organicWords as $w) {
             if (str_contains($filename, $w)) {
