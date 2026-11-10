@@ -94,6 +94,7 @@ class WasteController extends Controller
             'servo_action' => $servoAction,
             'servo_states' => $servoStates,
             'detection_source' => $aiResult['detection_source'] ?? 'ai_model',
+            'object_name_id' => $aiResult['object_name_id'] ?? null,
             'timestamp' => now()->toIso8601String(),
         ]);
     }

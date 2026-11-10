@@ -802,15 +802,68 @@
                 if (confBar) confBar.className = 'h-1.5 rounded-full transition-all duration-500 bg-sky-500';
             }
 
-            // Format nama engine deteksi
+            // Format nama engine deteksi dalam Bahasa Indonesia ramah masyarakat
             const src = (res.detection_source || '').toLowerCase();
             let srcLabel = 'AI Vision';
+
+            const kamusIndo = {
+                'beer_glass': 'Gelas / Botol Kaca',
+                'beer glass': 'Gelas / Botol Kaca',
+                'goblet': 'Gelas Kaca',
+                'glass': 'Material Kaca',
+                'pop_bottle': 'Botol Plastik Minuman',
+                'pop bottle': 'Botol Plastik Minuman',
+                'water_bottle': 'Botol Air Mineral',
+                'water bottle': 'Botol Air Mineral',
+                'bottle': 'Botol Plastik',
+                'packet': 'Kemasan Sachet / Bungkus',
+                'sachet': 'Kemasan Sachet Multilayer',
+                'plastic_bag': 'Kantong Plastik / Kresek',
+                'plastic bag': 'Kantong Plastik / Kresek',
+                'centipede': 'Dedaunan / Ranting Organik',
+                'leaf': 'Dedaunan Segar',
+                'cardboard': 'Kardus / Karton Cokelat',
+                'carton': 'Karton Minuman',
+                'tin_can': 'Kaleng Logam / Minuman',
+                'tin can': 'Kaleng Logam / Minuman',
+                'can': 'Kaleng Minuman',
+                'metal': 'Material Logam',
+                'crate': 'Keranjang / Peti Plastik',
+                'cellular_telephone': 'Ponsel / Limbah Elektronik',
+                'cellular telephone': 'Ponsel / Limbah Elektronik',
+                'laptop': 'Laptop / E-Waste',
+                'mouse': 'Mouse / Aksesoris Komputer',
+                'modem': 'Modem / Alat Elektronik',
+                'ipod': 'Gadget / Limbah Elektronik',
+                'banana': 'Kulit Pisang / Buah',
+                'apple': 'Sisa Apel / Buah',
+                'orange': 'Kulit Jeruk / Buah',
+                'pizza': 'Sisa Makanan',
+                'bread': 'Sisa Roti / Makanan',
+                'corn': 'Sisa Jagung / Sayuran',
+                'mask': 'Masker Medis (Residu)',
+                'syringe': 'Jarum / Limbah Medis (B3)',
+                'battery': 'Baterai Bekas (Limbah B3)',
+                'styrofoam': 'Styrofoam Kemasan (Residu)',
+                'pillow': 'Kain / Busa Residu',
+                'sock': 'Kain Bekas / Residu',
+                'jersey': 'Tekstil / Pakaian',
+                'suit': 'Pakaian / Tekstil',
+                'organic': 'Bahan Organik (Sisa Alam)',
+                'paper': 'Kertas / Dokumen Bekas',
+                'plastic': 'Sampah Plastik Daur Ulang',
+                'e-waste': 'Limbah Elektronik (E-Waste)',
+                'medical': 'Limbah Medis & B3'
+            };
+
             if (src.includes('gemini')) {
-                srcLabel = '✨ Gemini Vision Pro';
+                srcLabel = '✨ AI Gemini: Analisis Multimodal Cerdas';
                 badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-purple-100 text-purple-800 border border-purple-200 shadow-2xs';
             } else if (src.includes('ai_vision')) {
-                const labelObj = src.replace('ai_vision_', '').replace(/_/g, ' ').toUpperCase();
-                srcLabel = '🧠 Deep Vision: ' + labelObj;
+                const rawKey = src.replace('ai_vision_', '').replace(/_/g, ' ').trim();
+                const indoTerm = res.object_name_id || kamusIndo[rawKey] || kamusIndo[rawKey.replace(/ /g, '_')] || ('Objek ' + rawKey.toUpperCase());
+                srcLabel = '🧠 Deep Vision: ' + indoTerm;
+
                 if (res.kategori === 'organik') {
                     badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-emerald-100 text-emerald-900 border border-emerald-200 shadow-2xs';
                 } else if (res.kategori === 'residu') {
@@ -819,21 +872,29 @@
                     badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-sky-100 text-sky-900 border border-sky-200 shadow-2xs';
                 }
             } else if (src.includes('green') || src.includes('foliage')) {
-                srcLabel = '🍃 AI Visual: Daun Hijau';
+                srcLabel = '🍃 AI Sensor: Dedaunan Hijau Alami';
                 badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-emerald-100 text-emerald-900 border border-emerald-200 shadow-2xs';
             } else if (src.includes('sachet') || src.includes('multilayer')) {
-                srcLabel = '🧼 AI Visual: Sachet Multilayer';
+                srcLabel = '🧼 AI Sensor: Kemasan Sachet Multilayer';
                 badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-rose-100 text-rose-900 border border-rose-200 shadow-2xs';
             } else if (src.includes('bottle')) {
-                srcLabel = '🧴 AI Visual: Botol PET';
+                srcLabel = '🧴 AI Sensor: Botol Plastik PET';
                 badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-sky-100 text-sky-900 border border-sky-200 shadow-2xs';
             } else if (src.includes('yolo')) {
-                srcLabel = '🎯 YOLO: ' + src.replace('yolo_waste_', '').replace('yolo_', '').toUpperCase();
+                const yoloKey = src.replace('yolo_waste_', '').replace('yolo_', '').trim();
+                const yoloIndo = kamusIndo[yoloKey] || yoloKey.toUpperCase();
+                srcLabel = '🎯 YOLO AI: ' + yoloIndo;
                 badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-indigo-100 text-indigo-900 border border-indigo-200 shadow-2xs';
+            } else if (src.includes('semantic_analysis')) {
+                if (src.includes('organik')) srcLabel = '🌿 Sampel Organik Terverifikasi';
+                else if (src.includes('residu')) srcLabel = '⚠️ Sampel Residu / B3 Terverifikasi';
+                else srcLabel = '♻️ Sampel Daur Ulang Terverifikasi';
+                badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-slate-200 text-slate-800 border border-slate-300 shadow-2xs';
             } else if (src.includes('filename')) {
-                srcLabel = '🏷️ Label Terverifikasi';
+                srcLabel = '🏷️ Label Sampel Terverifikasi';
                 badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-slate-200 text-slate-800 border border-slate-300 shadow-2xs';
             } else {
+                srcLabel = '🔍 Deteksi Cerdas 3 Kompartemen';
                 badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-slate-200 text-slate-800 border border-slate-300 shadow-2xs';
             }
             badgeEl.innerText = srcLabel;

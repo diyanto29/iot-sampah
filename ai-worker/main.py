@@ -79,6 +79,47 @@ MOBILENET_RECYCLABLE_WORDS = {
     'newspaper', 'comic book', 'binder', 'notebook', 'pencil box', 'shoji', 'water jug'
 }
 
+OBJECT_TRANSLATIONS_ID = {
+    'beer_glass': 'Gelas / Botol Kaca',
+    'beer glass': 'Gelas / Botol Kaca',
+    'goblet': 'Gelas Kaca',
+    'glass': 'Material Kaca',
+    'pop_bottle': 'Botol Plastik Minuman',
+    'pop bottle': 'Botol Plastik Minuman',
+    'water_bottle': 'Botol Air Mineral',
+    'water bottle': 'Botol Air Mineral',
+    'bottle': 'Botol Plastik',
+    'packet': 'Bungkus / Kemasan Sachet',
+    'sachet': 'Kemasan Sachet Multilayer',
+    'plastic_bag': 'Kantong Plastik / Kresek',
+    'plastic bag': 'Kantong Plastik / Kresek',
+    'centipede': 'Dedaunan & Ranting Kering',
+    'leaf': 'Dedaunan Alami',
+    'cardboard': 'Kardus / Karton Cokelat',
+    'carton': 'Karton Dus Minuman',
+    'tin_can': 'Kaleng Minuman Logam',
+    'tin can': 'Kaleng Minuman Logam',
+    'can': 'Kaleng Minuman',
+    'metal': 'Material Logam',
+    'cellular_telephone': 'Ponsel / Limbah Elektronik',
+    'cellular telephone': 'Ponsel / Limbah Elektronik',
+    'laptop': 'Laptop / E-Waste',
+    'mouse': 'Mouse Komputer / E-Waste',
+    'modem': 'Modem / E-Waste',
+    'ipod': 'Gadget / E-Waste',
+    'banana': 'Kulit Pisang (Organik)',
+    'apple': 'Sisa Apel (Organik)',
+    'orange': 'Kulit Jeruk (Organik)',
+    'mask': 'Masker Sekali Pakai (Residu)',
+    'syringe': 'Jarum / Limbah Medis (B3)',
+    'battery': 'Baterai Bekas (Limbah B3)',
+    'styrofoam': 'Styrofoam Makanan (Residu)',
+}
+
+def get_indonesian_label(source_str: str) -> str:
+    clean = source_str.replace('ai_vision_', '').replace('yolo_waste_', '').replace('yolo_', '').replace('_', ' ').lower().strip()
+    return OBJECT_TRANSLATIONS_ID.get(clean, OBJECT_TRANSLATIONS_ID.get(clean.replace(' ', '_'), clean.title()))
+
 def classify_with_mobilenet(pil_img: Image.Image) -> dict | None:
     if not HAS_MOBILENET or not mobilenet_model:
         return None
@@ -494,6 +535,7 @@ async def detect_waste(file: UploadFile = File(...)):
             "servo_angle": action_data["servo_angle"],
             "servo_states": action_data["servos"],
             "detection_source": detection_source,
+            "object_name_id": get_indonesian_label(detection_source),
             "target_compartment": action_data["label"],
             "filename": file.filename
         }
