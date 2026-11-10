@@ -55,9 +55,10 @@ MOBILENET_ORGANIC_WORDS = {
 }
 
 MOBILENET_RESIDUE_WORDS = {
-    # 1. Kemasan Plastik Multilayer, Sachet, Bungkus Snack
+    # 1. Kemasan Plastik Multilayer, Sachet, Karet, Bungkus Snack, Dot Bayi
     'packet', 'sachet', 'bag', 'plastic_bag', 'wrapper', 'diaper',
     'rubber', 'styrofoam', 'pouch', 'bubble gum', 'candy', 'matchstick',
+    'nipple', 'pacifier', 'balloon', 'sponge', 'band aid', 'band_aid',
 
     # 2. Sampah Elektronik (E-Waste / Charger / Kabel / Baterai / Gadget)
     'ipod', 'cellular', 'telephone', 'computer', 'keyboard', 'laptop', 'modem',
@@ -88,6 +89,85 @@ MOBILENET_RECYCLABLE_WORDS = {
 }
 
 OBJECT_TRANSLATIONS_ID = {
+    # Bayi, Karet & Silikon
+    'nipple': 'Dot Karet Bayi (Residu)',
+    'pacifier': 'Empeng Karet Bayi',
+    'balloon': 'Balon Karet (Residu)',
+    'rubber': 'Karet / Silikon (Residu)',
+    'diaper': 'Popok Bayi (Residu)',
+    'sponge': 'Spons Cuci (Residu)',
+    'band aid': 'Plester Luka (Limbah Medis)',
+    'band_aid': 'Plester Luka (Limbah Medis)',
+
+    # Kemasan Plastik Multilayer & Sachet
+    'packet': 'Bungkus / Kemasan Sachet',
+    'sachet': 'Kemasan Sachet Multilayer',
+    'plastic_bag': 'Kantong Plastik / Kresek',
+    'plastic bag': 'Kantong Plastik / Kresek',
+    'shopping_bag': 'Kantong Belanja Plastik',
+    'shopping bag': 'Kantong Belanja Plastik',
+    'mailbag': 'Kantong Plastik Paket',
+    'wrapper': 'Bungkus Plastik Makanan',
+    'pouch': 'Kantong Pouch Refill',
+    'bubble_gum': 'Permen Karet (Residu)',
+    'bubble gum': 'Permen Karet (Residu)',
+    'candy': 'Bungkus Permen (Residu)',
+    'styrofoam': 'Styrofoam Makanan (Residu)',
+    'matchstick': 'Korek Api Kayu (Residu)',
+    'candle': 'Lilin Bekas (Residu)',
+    'lighter': 'Korek Gas (Limbah B3)',
+
+    # Organik: Dedaunan, Buah, Sayur, Serat Kayu, Jamur
+    'centipede': 'Dedaunan & Ranting Kering',
+    'leaf': 'Dedaunan Segar',
+    'plant': 'Tanaman / Dedaunan',
+    'flower': 'Bunga / Kelopak Layu',
+    'wood': 'Ranting / Serat Kayu',
+    'tree': 'Dahan / Ranting Pohon',
+    'hay': 'Jerami Kering (Organik)',
+    'straw': 'Jerami Padi (Organik)',
+    'acorn': 'Biji Buah (Organik)',
+    'buckeye': 'Biji Pohon (Organik)',
+    'mushroom': 'Jamur (Sisa Organik)',
+    'agaric': 'Jamur (Sisa Organik)',
+    'bolete': 'Jamur (Sisa Organik)',
+    'earthstar': 'Jamur / Tumbuhan Liar',
+    'stinkhorn': 'Jamur / Sisa Organik',
+    'hen-of-the-woods': 'Jamur Pangan (Organik)',
+    'banana': 'Kulit Pisang (Organik)',
+    'apple': 'Sisa Apel (Organik)',
+    'granny smith': 'Apel Hijau (Organik)',
+    'granny_smith': 'Apel Hijau (Organik)',
+    'orange': 'Kulit Jeruk (Organik)',
+    'lemon': 'Kulit Lemon / Jeruk (Organik)',
+    'lime': 'Kulit Jeruk Nipis (Organik)',
+    'pineapple': 'Kulit Nanas (Organik)',
+    'pomegranate': 'Kulit Delima (Organik)',
+    'fig': 'Sisa Buah Ara (Organik)',
+    'jackfruit': 'Kulit / Biji Nangka (Organik)',
+    'strawberry': 'Sisa Buah Strawberry (Organik)',
+    'custard apple': 'Sisa Buah Srikaya (Organik)',
+    'corn': 'Tongkol / Kulit Jagung (Organik)',
+    'ear of corn': 'Tongkol Jagung (Organik)',
+    'potatoes': 'Kulit Kentang (Organik)',
+    'potato': 'Kulit Kentang (Organik)',
+    'cabbage': 'Sisa Kol / Sayuran (Organik)',
+    'head cabbage': 'Sisa Kubis / Kol (Organik)',
+    'head_cabbage': 'Sisa Kubis / Kol (Organik)',
+    'broccoli': 'Sisa Sayur Brokoli (Organik)',
+    'cauliflower': 'Sisa Kembang Kol (Organik)',
+    'cucumber': 'Sisa Mentimun (Organik)',
+    'zucchini': 'Sisa Labu / Sayuran (Organik)',
+    'artichoke': 'Sisa Sayuran (Organik)',
+    'bell pepper': 'Sisa Paprika / Cabai (Organik)',
+    'bell_pepper': 'Sisa Paprika / Cabai (Organik)',
+    'spaghetti squash': 'Sisa Labu Sayur (Organik)',
+    'butternut squash': 'Sisa Labu Madu (Organik)',
+    'pizza': 'Sisa Makanan Pizza (Organik)',
+    'bread': 'Sisa Roti / Makanan (Organik)',
+    'spaghetti': 'Sisa Mie / Pasta (Organik)',
+
+    # Kaca & Botol Minuman
     'beer_glass': 'Gelas / Botol Kaca',
     'beer glass': 'Gelas / Botol Kaca',
     'goblet': 'Gelas Kaca',
@@ -96,44 +176,117 @@ OBJECT_TRANSLATIONS_ID = {
     'pop bottle': 'Botol Plastik Minuman',
     'water_bottle': 'Botol Air Mineral',
     'water bottle': 'Botol Air Mineral',
-    'bottle': 'Botol Plastik',
+    'beer_bottle': 'Botol Bir Kaca',
+    'beer bottle': 'Botol Bir Kaca',
+    'wine_bottle': 'Botol Anggur Kaca',
+    'wine bottle': 'Botol Anggur Kaca',
+    'bottle': 'Botol Minuman',
+    'jar': 'Toples Kaca / Wadah',
+    'flask': 'Botol Laboratorium / Kaca',
+    'beaker': 'Gelas Kimia / Kaca',
+    'cup': 'Cangkir / Gelas Plastik',
+    'mug': 'Gelas Mug Keramik',
+    'coffee mug': 'Cangkir Kopi',
+
+    # Peralatan Makan & Wadah Plastik
     'plate': 'Piring Plastik / Makan',
     'dish': 'Piring / Wadah Makanan',
     'tray': 'Nampan / Piring Saji',
     'saucer': 'Piring Kecil / Tatakan',
     'bowl': 'Mangkuk Plastik / Wadah',
+    'soup bowl': 'Mangkuk Sup / Wadah',
+    'platter': 'Piring Saji Besar',
     'bucket': 'Ember / Wadah Plastik',
+    'tub': 'Bak / Wadah Plastik',
     'frisbee': 'Piringan Plastik / Frisbee',
-    'packet': 'Bungkus / Kemasan Sachet',
-    'sachet': 'Kemasan Sachet Multilayer',
-    'plastic_bag': 'Kantong Plastik / Kresek',
-    'plastic bag': 'Kantong Plastik / Kresek',
-    'centipede': 'Dedaunan & Ranting Kering',
-    'leaf': 'Dedaunan Alami',
+
+    # Kertas, Kardus & Karton
     'cardboard': 'Kardus / Karton Cokelat',
     'carton': 'Karton Dus Minuman',
+    'box': 'Kotak Dus / Kemasan',
+    'paper': 'Kertas / Dokumen Bekas',
+    'envelope': 'Amplop Kertas',
+    'newspaper': 'Koran Bekas (Kertas)',
+    'comic book': 'Buku / Majalah Bekas',
+    'notebook': 'Buku Tulis Bekas',
+    'binder': 'Map / Binder Kertas',
+    'paper towel': 'Tisu Kertas Kering',
+    'toilet tissue': 'Tisu Kertas Bekas',
+
+    # Logam & Kaleng
     'tin_can': 'Kaleng Minuman Logam',
     'tin can': 'Kaleng Minuman Logam',
     'can': 'Kaleng Minuman',
+    'tin': 'Kaleng Logam',
     'metal': 'Material Logam',
-    'cellular_telephone': 'Ponsel / Limbah Elektronik',
-    'cellular telephone': 'Ponsel / Limbah Elektronik',
+    'aluminum': 'Logam Aluminium',
+    'pot': 'Panci Logam',
+    'pan': 'Wajan / Logam',
+    'bottlecap': 'Tutup Botol Logam',
+    'crate': 'Keranjang / Peti Plastik',
+    'barrel': 'Drum / Wadah Plastik',
+
+    # Gadget & Elektronik (E-Waste)
+    'cellular_telephone': 'Ponsel / E-Waste',
+    'cellular telephone': 'Ponsel / E-Waste',
+    'cellular': 'Ponsel Bekas',
+    'telephone': 'Telepon Bekas (E-Waste)',
     'laptop': 'Laptop / E-Waste',
+    'computer': 'Komputer / E-Waste',
     'mouse': 'Mouse Komputer / E-Waste',
+    'keyboard': 'Keyboard / E-Waste',
     'modem': 'Modem / E-Waste',
     'ipod': 'Gadget / E-Waste',
-    'banana': 'Kulit Pisang (Organik)',
-    'apple': 'Sisa Apel (Organik)',
-    'orange': 'Kulit Jeruk (Organik)',
-    'mask': 'Masker Sekali Pakai (Residu)',
+    'hard disc': 'Harddisk / E-Waste',
+    'remote': 'Remote Kontrol (E-Waste)',
+    'headphones': 'Headphone / Kabel Rusak',
+    'microphone': 'Mikrofon / E-Waste',
+    'loudspeaker': 'Speaker / E-Waste',
+    'radio': 'Radio / E-Waste',
+    'television': 'Televisi / Layar Elektronik',
+    'monitor': 'Monitor Komputer / E-Waste',
+    'vacuum': 'Penyedot Debu / Elektronik',
+    'iron': 'Setrika / Alat Elektronik',
+    'toaster': 'Pemanggang Roti (E-Waste)',
+    'dryer': 'Pengering Rambut (E-Waste)',
+    'blender': 'Blender / Alat Elektronik',
+    'digital clock': 'Jam Digital (E-Waste)',
+    'digital watch': 'Jam Tangan Digital',
+    'torch': 'Senter / Baterai',
+
+    # Medis & B3
     'syringe': 'Jarum / Limbah Medis (B3)',
+    'pill bottle': 'Botol Obat Bekas (B3)',
+    'pill_bottle': 'Botol Obat Bekas (B3)',
+    'mask': 'Masker Sekali Pakai (Residu)',
+    'thermometer': 'Termometer (Limbah B3)',
     'battery': 'Baterai Bekas (Limbah B3)',
-    'styrofoam': 'Styrofoam Makanan (Residu)',
+    'power drill': 'Bor Listrik (E-Waste)',
 }
 
-def get_indonesian_label(source_str: str) -> str:
+def get_indonesian_label(source_str: str, category: str = "") -> str:
     clean = source_str.replace('ai_vision_', '').replace('yolo_waste_', '').replace('yolo_', '').replace('_', ' ').lower().strip()
-    return OBJECT_TRANSLATIONS_ID.get(clean, OBJECT_TRANSLATIONS_ID.get(clean.replace(' ', '_'), clean.title()))
+    
+    # 1. Cek kamus terjemahan langsung
+    if clean in OBJECT_TRANSLATIONS_ID:
+        return OBJECT_TRANSLATIONS_ID[clean]
+    if clean.replace(' ', '_') in OBJECT_TRANSLATIONS_ID:
+        return OBJECT_TRANSLATIONS_ID[clean.replace(' ', '_')]
+
+    # 2. Cek kecocokan parsial kata kunci
+    for k, v in OBJECT_TRANSLATIONS_ID.items():
+        if k in clean or clean in k:
+            return v
+
+    # 3. Fallback ramah Bahasa Indonesia berdasarkan kategori (JANGAN PERNAH TAMPILKAN INGGRIS MENTAH!)
+    if category == "organik" or "organik" in source_str or "leaf" in source_str or "green" in source_str:
+        return "Sisa Organik & Dedaunan"
+    elif category == "residu" or "residu" in source_str or "packet" in source_str:
+        return "Kemasan Residu & B3"
+    elif category == "anorganik" or "daur_ulang" in source_str or "bottle" in source_str or "plate" in source_str:
+        return "Material Anorganik Daur Ulang"
+
+    return "Sampah Terpilah"
 
 def classify_with_mobilenet(pil_img: Image.Image) -> dict | None:
     if not HAS_MOBILENET or not mobilenet_model:
@@ -578,7 +731,7 @@ async def detect_waste(file: UploadFile = File(...)):
             "servo_angle": action_data["servo_angle"],
             "servo_states": action_data["servos"],
             "detection_source": detection_source,
-            "object_name_id": get_indonesian_label(detection_source),
+            "object_name_id": get_indonesian_label(detection_source, category),
             "target_compartment": action_data["label"],
             "filename": file.filename
         }

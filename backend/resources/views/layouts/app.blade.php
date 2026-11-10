@@ -815,6 +815,25 @@
                 'pop bottle': 'Botol Plastik Minuman',
                 'water_bottle': 'Botol Air Mineral',
                 'water bottle': 'Botol Air Mineral',
+                'nipple': 'Dot Karet Bayi (Residu)',
+                'pacifier': 'Empeng Karet (Residu)',
+                'balloon': 'Balon Karet (Residu)',
+                'rubber': 'Karet / Silikon (Residu)',
+                'sponge': 'Spons Cuci (Residu)',
+                'wood': 'Ranting / Kayu (Organik)',
+                'hay': 'Jerami Kering (Organik)',
+                'straw': 'Jerami Padi (Organik)',
+                'acorn': 'Biji Buah (Organik)',
+                'mushroom': 'Jamur (Sisa Organik)',
+                'lemon': 'Kulit Lemon (Organik)',
+                'lime': 'Kulit Jeruk Nipis (Organik)',
+                'pineapple': 'Kulit Nanas (Organik)',
+                'strawberry': 'Sisa Strawberry (Organik)',
+                'potato': 'Kulit Kentang (Organik)',
+                'potatoes': 'Kulit Kentang (Organik)',
+                'cabbage': 'Sisa Sayur Kol (Organik)',
+                'broccoli': 'Sisa Sayur Brokoli (Organik)',
+                'cucumber': 'Sisa Mentimun (Organik)',
                 'bottle': 'Botol Plastik',
                 'plate': 'Piring Plastik / Makan',
                 'dish': 'Piring / Wadah Makanan',
@@ -868,7 +887,11 @@
                 badgeEl.className = 'text-xs px-3 py-1 rounded-full font-bold bg-purple-100 text-purple-800 border border-purple-200 shadow-2xs';
             } else if (src.includes('ai_vision')) {
                 const rawKey = src.replace('ai_vision_', '').replace(/_/g, ' ').trim();
-                const indoTerm = res.object_name_id || kamusIndo[rawKey] || kamusIndo[rawKey.replace(/ /g, '_')] || ('Objek ' + rawKey.toUpperCase());
+                let defaultIndo = 'Material Daur Ulang';
+                if (res.kategori === 'organik') defaultIndo = 'Sisa Organik & Dedaunan';
+                else if (res.kategori === 'residu') defaultIndo = 'Sampah Residu & Kemasan';
+
+                const indoTerm = res.object_name_id || kamusIndo[rawKey] || kamusIndo[rawKey.replace(/ /g, '_')] || defaultIndo;
                 srcLabel = '🧠 Deep Vision: ' + indoTerm;
 
                 if (res.kategori === 'organik') {
