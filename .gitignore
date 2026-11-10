@@ -1,0 +1,50 @@
+# ===============================================================
+# Git Ignore - Smart Trash Bin IoT System
+# ===============================================================
+
+# Operating System & IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment & Credentials (Security Mandate)
+.env
+.env.backup
+.env.production
+ai-worker/.env
+backend/.env
+
+# Python Virtual Environment & Artifacts
+ai-worker/venv/
+ai-worker/__pycache__/
+*.pyc
+*.pyo
+ai-worker/*.log
+uvicorn.log
+ai-worker/*.jpg
+ai-worker/*.jpeg
+ai-worker/*.png
+
+# YOLO Model Weights (Auto-downloaded by start_system.sh)
+ai-worker/*.pt
+
+# Laravel Dependencies & Storage
+backend/vendor/
+backend/node_modules/
+backend/public/hot
+backend/public/storage
+backend/storage/*.key
+backend/storage/logs/*.log
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+!backend/storage/framework/cache/.gitignore
+!backend/storage/framework/sessions/.gitignore
+!backend/storage/framework/views/.gitignore
+
+# Local SQLite Database
+backend/database/database.sqlite
+backend/database/database.sqlite-journal
